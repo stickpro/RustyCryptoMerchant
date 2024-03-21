@@ -1,0 +1,13 @@
+profile = "dev"
+
+[server]
+addr = "127.0.0.1"
+port = 8080
+
+[db]
+host = "127.0.0.1"
+port = 5432
+username = "username"
+password = "password"
+database_name = "merchant_db"
+max_connections = 5
