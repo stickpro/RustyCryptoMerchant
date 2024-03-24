@@ -2,6 +2,7 @@ use chrono::{DateTime, Utc};
 use sea_orm::prelude::{Uuid};
 use rust_decimal::Decimal;
 use sea_orm::entity::prelude::*;
+
 use crate::error::ResourceType;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, DeriveEntityModel)]
@@ -23,7 +24,7 @@ pub struct Model {
 }
 
 impl super::AppEntity for Model {
-    const RESOURCE: ResourceType = ResourceType::Store;
+    const RESOURCE: crate::error::ResourceType = ResourceType::Store;
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

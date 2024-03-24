@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
+#set -euxo pipefail
 
 DB_USER="${REDIS_USER:=redis_user}"
 DB_PASSWORD="${REDIS_PASSWORD:=''}"

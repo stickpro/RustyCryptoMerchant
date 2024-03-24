@@ -41,7 +41,7 @@ pub enum Relation {
 
 impl Related<super::store::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::Store::def()
+        Relation::Store.def()
     }
 }
 

@@ -12,7 +12,7 @@ impl MessengerTask {
     }
 
     pub async fn run(self) -> AppResult {
-        info!("The messenger task has started");
+        info!("The messenger task has started ");
         Ok(())
     }
 }
