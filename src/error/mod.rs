@@ -1,8 +1,13 @@
-use axum::{http::StatusCode, Json};
-use axum::response::{IntoResponse, Response};
-use serde::{Deserialize, Serialize};
-use strum::{EnumString, Display};
+use axum::{
+    http::StatusCode,
+    response::{IntoResponse, Response},
+    Json,
+};
+use serde::Deserialize;
+use serde::Serialize;
+use strum::EnumString;
 use utoipa::ToSchema;
+
 
 pub type AppResult<T = ()> = std::result::Result<T, AppError>;
 
@@ -20,6 +25,8 @@ pub enum AppError {
     UserNotActiveError(String),
     #[error("{0}")]
     InvalidSessionError(String),
+    #[error(transparent)]
+    DatabaseError(#[from] sea_orm::error::DbErr),
     #[error("{0}")]
     ConflictError(String),
     #[error("{0}")]
@@ -80,6 +87,12 @@ impl AppError {
                 None,
                 vec![],
                 StatusCode::BAD_REQUEST,
+            ),
+            DatabaseError(_err) => (
+                "DATABASE_ERROR".to_string(),
+                None,
+                vec![],
+                StatusCode::INTERNAL_SERVER_ERROR,
             ),
             ConflictError(_err) => (
                 "CONFLICT_ERROR".to_string(),
@@ -200,14 +213,16 @@ impl std::fmt::Display for Resource {
     }
 }
 
-#[derive(Debug, EnumString, Display, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, EnumString, strum::Display, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum ResourceType {
     #[strum(serialize = "USER")]
     User,
     #[strum(serialize = "FILE")]
     File,
-    #[strum(serialize = "MESSAGE")]
-    Message,
     #[strum(serialize = "SESSION")]
     Session,
+    #[strum(serialize = "MESSAGE")]
+    Message,
+    #[strum(serialize = "STORE")]
+    Store,
 }

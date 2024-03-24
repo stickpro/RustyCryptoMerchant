@@ -6,3 +6,6 @@ pub mod server;
 pub mod router;
 pub mod handler;
 pub mod dto;
+pub mod client;
+pub mod migration;
+pub mod entity;

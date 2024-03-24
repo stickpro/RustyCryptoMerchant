@@ -1,11 +1,11 @@
-version: '3.5'
+version: '3.9'
 
 services:
   merchant:
-    image: merchant-rust
-    container_name: merchant-rust
+    image: merchant
+    container_name: merchant
     build:
-      context: .
+      context: ../../
       dockerfile: Dockerfile
     ports:
       - "${APP_SERVER__PORT}:${APP_SERVER__PORT}"
@@ -16,7 +16,7 @@ services:
       - redis-db
     env_file: ./.env
     volumes:
-      - app_data:/log
+      - app_data:/logs
 
   postgres-db:
     image: "postgres:latest"
@@ -53,7 +53,10 @@ services:
       - "8025:8025"
 
 networks:
-  server-side: {}
+  server-side: {
+    driver: bridge,
+    external: true,
+  }
 
 volumes:
   app_data:
